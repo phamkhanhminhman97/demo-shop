@@ -1,0 +1,14 @@
+{
+  "name": "demo-shop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc",
+    "types": "wrangler types",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "wrangler": "4.161.0"
+  }
+}

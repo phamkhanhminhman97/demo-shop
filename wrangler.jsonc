@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "demo-shop",
+  "main": "src/index.ts",
+  // Web shop pages and static files (public/). API paths always reach the Worker.
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/orders", "/orders/*", "/products", "/health", "/version"]
+  },
+  "compatibility_date": "2026-11-12",
+  // Partner API is another company's service: always call it over the public Internet.
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "d1_databases": [{ "binding": "DB", "database_name": "demo-shop", "database_id": "98f29465-1bbf-4b3f-9a9f-489938baba9d", "migrations_dir": "migrations" }],
+  "queues": {
+    "producers": [{ "binding": "NOTIFY", "queue": "demo-shop-notify" }],
+    "consumers": [{ "queue": "demo-shop-notify", "max_batch_size": 10, "max_batch_timeout": 1, "max_retries": 10 }]
+  },
+  "durable_objects": { "bindings": [{ "name": "GATE", "class_name": "CheckoutGate" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["CheckoutGate"] }],
+  // Runtime configuration. Each release is recorded in releases/.
+  "vars": {
+    "PARTNER_URL": "https://selfheal-demo-partner.phamkhanhminhman97.workers.dev",
+    "PARTNER_TIMEOUT_MS": "500",
+    "CHECKOUT_CONCURRENCY": "8",
+    "BUILD_SHA": "dev"
+  },
+  // Secret: PARTNER_KEY (partner API key).
+  "observability": { "enabled": true, "traces": { "enabled": true } }
+}

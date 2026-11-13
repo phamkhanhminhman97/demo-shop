@@ -1,0 +1,1 @@
+import{d as e,t}from"./lib.BCITGLqy.js";e().then(e=>{let n=Math.max(0,e.stock.get(`LTD-1`)??0);t(`[data-ltd-text]`).innerHTML=n?`Còn <b>`+n+`/10</b> chiếc`:`<b>Đã bán hết</b> 10 chiếc`;let r=t(`[data-ltd-bar]`);r.value=n,r.classList.toggle(`low`,n<=3),t(`[data-ltd-stock]`).hidden=!1}).catch(()=>{});
